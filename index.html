@@ -1,0 +1,167 @@
+<!DOCTYPE html> 
+<script>
+var svers = "SVG-slides"; //what version of js-script
+</script>
+<html lang="en-US">
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Watch the movie</title>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.16/svg.min.js"></script>
+  <link rel="stylesheet" href="css/style01.css">
+<script src="js2/draggit200607a.js"></script>
+<script src="js2/fnc201026a.js"></script>
+</head>
+<body>
+  
+<table style="width:100%; height:100%">
+	<tr style="height:90%;" >
+		<td valign="top" style="width:80%" >
+			<div class="tbl1" id = "lpan">       
+	<div id = "div011" class = "svgg1">  </div>
+    <div id = "div012" class = "svgg1">  </div>
+    <div id = "div013" class = "touchdiv">  </div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		</td>
+	</tr>
+</table>  
+<div id="myModal" class="modal"> 
+  <div class="modal-content">
+    <span class="close">&times;</span>
+<label>In what folder to search </label><br>
+<input id = "where" value = "../../../../../"  type="text" width="70%;"><br><br>
+<label>What is subfolders' name?</label><br>
+<input id = "what" value = "kinno" type="text"><br>
+<br>
+<input id="submit" type="submit" value="Search" onclick="modalGoTo(); return false;">
+        <a href="javascript://" onclick="switch2(); return false;">txt/svg</a>
+  </div>
+</div>
+</body>
+<script>
+ var cOntrol = '<polygon id="SvgPrev" points="143,393 56,438 145,478" fill="#900" onclick="prevv()"></polygon>\
+<polygon id="SvgNext" points="527,393 527,478 606,432" fill="#78F" onclick="nextt()"></polygon>';
+ var P1 = '<text id="SvgPageNum" font-family="Helvetica, Arial, sans-serif" x="575" y="475">';
+ var P2 = '</text>';
+ var arr = ["s1","s2","s3","s4","s5","s6","s7","s8"]; //the array of SVG-frames (it will be like a PowerPoint presentation)
+ var kadr =0;
+ element = document.getElementById("svgID");
+	
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ function nextt(){
+	
+	kadr++;
+	if (kadr >= arr.length){kadr=0;}
+	uploadSvg(arr[kadr]);
+	//element.innerHTML=arr[kadr]+cOntrol+P1+kadr+P2;
+ }
+  function prevv(){
+	kadr--;
+	if (kadr < 0){kadr=arr.length-1;}
+	uploadSvg(arr[kadr]);
+	//element.innerHTML=arr[kadr]+cOntrol+P1+kadr+P2;
+ }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+function uploadSvg(namE0){
+    var namE = namE0+"?nocach="+Math.random()*10000;
+    //console.log(namE+"!!!"+svgnmsc+"???"+LsvgFile);
+	console.log("namE0= "+namE0);
+    location.hash = namE0
+    $.get(namE, function(svg) {
+	    svg = svg.match(/<svg([^>]+)([\s\S]*)<\/svg>/)[2];
+	    svg = svg.substring(1);
+	    svg = svg.replace(/<sodipodi([^>]+>)/g,"\n");	
+	    console.log("SSS");
+	    ///console.log(svg);
+	    draw.clear();
+	    draw.svg(svg);
+	    draw.svg(cOntrol);
+	    draw.svg(P1+kadr+P2);
+	    svgLinks = draw.set() //is for collecting rectangles
+//  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -	   
+	    var rectangles = draw.select('rect') //= SVG.select('rect')
+	    countSvgLinks = 0;
+	    rectangles.each(function(i) {
+			//this.attr('id', 'shiny_new_id_' + i)
+			//console.log(i+"-"+this.attr('x'));
+  			if (this.attr('onclick')!==undefined){
+	  			//console.log("onclick="+this.attr('onclick'));
+	  			svgLinks.add(this);
+	  
+				lnks[countSvgLinks++] = new lnk (
+					Number(this.attr('x')),
+					Number(this.attr('y')),
+					Number(this.attr('width')),
+					Number(this.attr('height')),
+					this.attr('onclick'),
+					(this.attr('onclick').charAt(0) === '/')?2:1 //set type 
+	
+                  //of the link: 1-link to svgfile 2-link to a web_address...
+	
+				);
+				
+				//console.log(Number(this.attr('x'))+"*"+
+				//	Number(this.attr('y'))+"*"+
+				//	Number(this.attr('width'))+"*"+
+				//	Number(this.attr('height')));
+	  		}
+	}) //rectangles.each(function...
+//  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+	//ParseLinks2(svg)
+//  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+         var p23 = ''
+      var k23 = namE.lastIndexOf('/')
+		p23 = namE.substring(0,k23+1);
+      var p24 = ''
+      var k24 = namE0.lastIndexOf('/')
+		p24 = namE0.substring(0,k24+1);
+  	var s23 = SVG.select('image')
+    // - - - - - - - - - - - - - - - - - - for embedded images start- - - - - -
+	s23.each(function(i) {
+      var v23 = this.attr('xlink:href')
+      if (v23 !== undefined) {
+        this.attr('href',p23+v23) //for nonSafari browsers
+        this.attr('xlink:href',p23+v23) //for Safari
+        
+        //svgLinks.add(this);
+		console.log("4href="+p23+v23);
+  
+      }
+	}) //rectangles.each(function...
+    // - - - - - - - - - - - - - - - - - - - -for embedded images end - - - - - -     
+    }, 'text').fail(function(){//cant read svg
+		console.log("can't read" + namE);
+    });
+}
+function scanDir2(){  
+	$.post('scandirs401.php',{noc:Math.random()*10000}, 
+    function(THT) {
+       var biG = JSON.parse(THT)
+       arr = biG.files
+uploadSvg(arr[0]);
+	}
+, 'text')
+.fail(
+    function(){
+		console.log("###ERROR###");
+      });
+	}
+  document.title = svers
+  
+ //>>-ModalJScriptStuff
+	var modal = document.getElementById('myModal');
+	var span = document.getElementsByClassName("close")[0];
+	span.onclick = function() { scanClose();}
+function scanClose(){
+scanDir3(
+document.getElementById('where').value,
+document.getElementById('what').value
+);
+  modal.style.display = "none";
+}
+</script>
+</html>
