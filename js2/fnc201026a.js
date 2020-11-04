@@ -1,8 +1,3 @@
-/*just testing the ground
-needed functionslity is
-"create a folder"
-"create a file"
-*/
 /////////////////////////>>-Document_ready /////////////////////////////
 $( document ).ready(function() {/*->document_ready*/
 // touchEvents(); // touchevent.js

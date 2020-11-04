@@ -1,13 +1,13 @@
 <!DOCTYPE html> 
 <script>
-var svers = "SVG-slides"; //what version of js-script
+var svers = "KINO7"; //what version of js-script
 </script>
 <html lang="en-US">
 <head> 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Watch the movie</title>
+  <title>102 Watch the movie</title>
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.16/svg.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.3/svg.min.js"></script>
   <link rel="stylesheet" href="css/style01.css">
 <script src="js2/draggit200607a.js"></script>
 <script src="js2/fnc201026a.js"></script>
@@ -29,25 +29,13 @@ var svers = "SVG-slides"; //what version of js-script
 		</td>
 	</tr>
 </table>  
-<div id="myModal" class="modal"> 
-  <div class="modal-content">
-    <span class="close">&times;</span>
-<label>In what folder to search </label><br>
-<input id = "where" value = "../../../../../"  type="text" width="70%;"><br><br>
-<label>What is subfolders' name?</label><br>
-<input id = "what" value = "kinno" type="text"><br>
-<br>
-<input id="submit" type="submit" value="Search" onclick="modalGoTo(); return false;">
-        <a href="javascript://" onclick="switch2(); return false;">txt/svg</a>
-  </div>
-</div>
 </body>
 <script>
  var cOntrol = '<polygon id="SvgPrev" points="143,393 56,438 145,478" fill="#900" onclick="prevv()"></polygon>\
 <polygon id="SvgNext" points="527,393 527,478 606,432" fill="#78F" onclick="nextt()"></polygon>';
  var P1 = '<text id="SvgPageNum" font-family="Helvetica, Arial, sans-serif" x="575" y="475">';
  var P2 = '</text>';
- var arr = ["s1","s2","s3","s4","s5","s6","s7","s8"]; //the array of SVG-frames (it will be like a PowerPoint presentation)
+ var arr = []; //the array of SVG-frames (it will be like a PowerPoint presentation)
  var kadr =0;
  element = document.getElementById("svgID");
 	
@@ -57,19 +45,16 @@ var svers = "SVG-slides"; //what version of js-script
 	kadr++;
 	if (kadr >= arr.length){kadr=0;}
 	uploadSvg(arr[kadr]);
-	//element.innerHTML=arr[kadr]+cOntrol+P1+kadr+P2;
  }
   function prevv(){
 	kadr--;
 	if (kadr < 0){kadr=arr.length-1;}
 	uploadSvg(arr[kadr]);
-	//element.innerHTML=arr[kadr]+cOntrol+P1+kadr+P2;
  }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 function uploadSvg(namE0){
     var namE = namE0+"?nocach="+Math.random()*10000;
     //console.log(namE+"!!!"+svgnmsc+"???"+LsvgFile);
-	console.log("namE0= "+namE0);
     location.hash = namE0
     $.get(namE, function(svg) {
 	    svg = svg.match(/<svg([^>]+)([\s\S]*)<\/svg>/)[2];
@@ -79,8 +64,6 @@ function uploadSvg(namE0){
 	    ///console.log(svg);
 	    draw.clear();
 	    draw.svg(svg);
-	    draw.svg(cOntrol);
-	    draw.svg(P1+kadr+P2);
 	    svgLinks = draw.set() //is for collecting rectangles
 //  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -	   
 	    var rectangles = draw.select('rect') //= SVG.select('rect')
@@ -151,17 +134,5 @@ uploadSvg(arr[0]);
       });
 	}
   document.title = svers
-  
- //>>-ModalJScriptStuff
-	var modal = document.getElementById('myModal');
-	var span = document.getElementsByClassName("close")[0];
-	span.onclick = function() { scanClose();}
-function scanClose(){
-scanDir3(
-document.getElementById('where').value,
-document.getElementById('what').value
-);
-  modal.style.display = "none";
-}
 </script>
 </html>
